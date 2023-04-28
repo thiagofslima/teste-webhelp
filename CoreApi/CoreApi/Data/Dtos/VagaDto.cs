@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CoreApi.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace CoreApi.Models;
+namespace CoreApi.Data.Dtos;
 
-public class Vaga
+public class VagaDto
 {
     [Key]
     public int Id { get; set; }
@@ -12,5 +13,5 @@ public class Vaga
     [Required(ErrorMessage = "O campo de Descrição é obrigatório.")]
     [MaxLength(100, ErrorMessage = "A Descrição não pode exceder 100 caracteres.")]
     public string Descricao { get; set; }
-    public virtual ICollection<Candidato> Candidatos { get; set; }
+    public virtual ICollection<Candidato>? Candidatos { get; set; }
 }

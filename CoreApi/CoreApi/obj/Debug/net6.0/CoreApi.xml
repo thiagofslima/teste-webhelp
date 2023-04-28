@@ -4,6 +4,14 @@
         <name>CoreApi</name>
     </assembly>
     <members>
+        <member name="M:CoreApi.Controllers.CandidatoController.AdicionarCandidato(CoreApi.Data.Dtos.CandidatoDto)">
+            <summary>
+            Adiciona uma candidato ao banco de dados
+            </summary>
+            <param name="candidatoDto">Objeto com os campos necessários para criação de uma candidato</param>
+            <returns>IActionResult</returns>
+            <response code="201">Caso inserção seja feita com sucesso</response>
+        </member>
         <member name="M:CoreApi.Controllers.EmpresaController.AdicionarEmpresa(CoreApi.Data.Dtos.EmpresaDto)">
             <summary>
             Adiciona uma empresa ao banco de dados
@@ -28,7 +36,7 @@
             <returns>IActionResult</returns>
             <response code="201">Caso inserção seja feita com sucesso</response>
         </member>
-        <member name="M:CoreApi.Controllers.VagaController.AdicionarVaga(CoreApi.Data.Dtos.CreateVagaDto)">
+        <member name="M:CoreApi.Controllers.VagaController.AdicionarVaga(CoreApi.Data.Dtos.VagaDto)">
             <summary>
             Adiciona uma vaga ao banco de dados
             </summary>

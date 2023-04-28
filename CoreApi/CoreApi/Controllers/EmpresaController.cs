@@ -39,11 +39,18 @@ public class EmpresaController : ControllerBase
         return CreatedAtAction(nameof(RecuperaEmpresaPorId), new { Id = empresa.Id }, empresa);
     }
 
+    //[HttpGet]
+    //public IEnumerable<EmpresaDto> RecuperaEmpresas([FromQuery] int skip = 0, [FromQuery] int take = 50)
+    //{
+    //    return _mapper.Map<List<EmpresaDto>>(_context.Empresas.Skip(skip).Take(take));
+    //}
+
     [HttpGet]
-    public IEnumerable<EmpresaDto> RecuperaEmpresas([FromQuery] int skip = 0, [FromQuery] int take = 50)
+    public IEnumerable<EmpresaDto> RecuperaEmpresas()
     {
-        return _mapper.Map<List<EmpresaDto>>(_context.Empresas.Skip(skip).Take(take));
+        return _mapper.Map<List<EmpresaDto>>(_context.Empresas.ToList());
     }
+
 
     [HttpGet("{id}")]
     public IActionResult RecuperaEmpresaPorId(int id)

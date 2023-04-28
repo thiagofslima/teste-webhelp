@@ -17,11 +17,11 @@ public class CoreContext : DbContext
     public DbSet<Candidato> Candidatos { get; set; }
     public DbSet<Vaga> Vagas { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Empresa>()
-            .HasMany(p => p.Tecnologias)
-            .WithMany(c => c.Empresas)
-            .UsingEntity(j => j.ToTable("EmpresaTecnologia"));
-    }
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<Empresa>()
+    //        .HasMany(p => p.Tecnologias)
+    //        .WithMany(c => c.Empresas)
+    //        .UsingEntity(j => j.ToTable("EmpresaTecnologia"));
+    //}
 }

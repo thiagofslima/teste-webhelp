@@ -30,59 +30,49 @@ public class VagaController : ControllerBase
     /// <response code="201">Caso inserção seja feita com sucesso</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public IActionResult AdicionarVaga([FromBody] CreateVagaDto vagaDto)
+    public IActionResult AdicionarVaga([FromBody] VagaDto vagaDto)
     {
         Vaga vaga = _mapper.Map<Vaga>(vagaDto);
         _context.Vagas.Add(vaga);
         _context.SaveChanges();
         // Retorna o que foi salvo, inclusive o caminho.
-        return CreatedAtAction(nameof(RecuperaVagaPorId), new { id = vaga.Id }, vaga);
+        return CreatedAtAction(nameof(RecuperaVagaPorId), new { Id = vaga.Id }, vaga);
     }
 
+    //[HttpGet]
+    //public IEnumerable<VagaDto> RecuperaVagas([FromQuery] int skip = 0, [FromQuery] int take = 50)
+    //{
+    //    return _mapper.Map<List<VagaDto>>(_context.Vagas.Skip(skip).Take(take));
+    //}
+
     [HttpGet]
-    public IEnumerable<ReadVagaDto> RecuperaVagas([FromQuery]int skip = 0, [FromQuery] int take = 50)
+    public IEnumerable<VagaDto> RecuperaVagas()
     {
-        return _mapper.Map<List<ReadVagaDto>>(_context.Vagas.Skip(skip).Take(take));
+        return _mapper.Map<List<VagaDto>>(_context.Vagas.ToList());
     }
 
     [HttpGet("{id}")]
     public IActionResult RecuperaVagaPorId(int id)
     {
         // Busca utilizando LINQ.
-        var vaga = _context.Vagas.FirstOrDefault(vaga => vaga.Id == id);
-        if (vaga == null)
-            return NotFound();
+        Vaga vaga = _context.Vagas.FirstOrDefault(vaga => vaga.Id == id);
+        if (vaga != null)
+        {
+            VagaDto vagaDto = _mapper.Map<VagaDto>(vaga);
+            return Ok(vaga);
+        }
 
-        var vagaDto = _mapper.Map<ReadVagaDto>(vaga);
-        return Ok(vaga);
+        return NotFound();
     }
 
     [HttpPut("{id}")]
-    public IActionResult AtualizaVaga(int id, [FromBody] UpdateVagaDto vagaDto)
+    public IActionResult AtualizaVaga(int id, [FromBody] VagaDto vagaDto)
     {
         var vaga = _context.Vagas.FirstOrDefault(vaga => vaga.Id == id);
         if (vaga == null)
             return NotFound();
 
         _mapper.Map(vagaDto, vaga);
-        _context.SaveChanges();
-        return NoContent();
-    }
-
-    [HttpPatch("{id}")]
-    public IActionResult AtualizaVagaParcial(int id, JsonPatchDocument<UpdateVagaDto> patch)
-    {
-        var vaga = _context.Vagas.FirstOrDefault(vaga => vaga.Id == id);
-        if (vaga == null)
-            return NotFound();
-
-        var vagaParaAtualizar = _mapper.Map<UpdateVagaDto>(vaga);
-        patch.ApplyTo(vagaParaAtualizar, ModelState);
-
-        if (!TryValidateModel(vagaParaAtualizar))
-            return ValidationProblem(ModelState);
-
-        _mapper.Map(vagaParaAtualizar, vaga);
         _context.SaveChanges();
         return NoContent();
     }
